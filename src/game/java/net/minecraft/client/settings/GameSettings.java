@@ -93,7 +93,7 @@ public class GameSettings {
 			"options.graphics.fancy" };
 	public float mouseSensitivity = 0.5F;
 	public boolean invertMouse;
-	public int renderDistanceChunks = -1;
+	public int renderDistanceChunks = 4;
 	public boolean viewBobbing = true;
 	public boolean anaglyph;
 	public boolean fboEnable = true;
@@ -203,7 +203,7 @@ public class GameSettings {
 	public boolean hud24h = false;
 	public boolean chunkFix = true;
 	public boolean fog = true;
-	public int fxaa = 0;
+	public int fxaa = 1;
 	public boolean shaders = false;
 	public boolean shadersAODisable = false;
 	public EaglerDeferredConfig deferredShaderConf = new EaglerDeferredConfig();
@@ -349,8 +349,8 @@ public class GameSettings {
 		}
 
 		if (parOptions == GameSettings.Options.RENDER_DISTANCE) {
-			this.renderDistanceChunks = (int) parFloat1;
-			this.mc.renderGlobal.setDisplayListEntitiesDirty();
+			this.renderDistanceChunks = 4; 
+			return; 
 		}
 
 		if (parOptions == GameSettings.Options.EAGLER_TOUCH_CONTROL_OPACITY) {
@@ -722,18 +722,12 @@ public class GameSettings {
 				return s + I18n.format("options.graphics.fancy", new Object[0]);
 			} else {
 				String s1 = "options.graphics.fast";
-				return s + I18n.format("options.graphics.fast", new Object[0]);
-			}
-		} else if (parOptions == GameSettings.Options.FXAA) {
-			if (this.fxaa == 0) {
-				return s + I18n.format("options.fxaa.auto");
-			} else if (this.fxaa == 1) {
-				return s + I18n.format("options.on");
-			} else {
-				return s + I18n.format("options.off");
-			}
-		} else if (parOptions == GameSettings.Options.OF_CONNECTED_TEXTURES) {
-			if (this.connectedTexturesOF == 0) {
+return s + I18n.format("options.graphics.fast", new Object[0]);
+            }
+        } else if (parOptions == GameSettings.Options.FXAA) {
+            return s + I18n.format("options.on");
+        } else if (parOptions == GameSettings.Options.OF_CONNECTED_TEXTURES) {
+            if (this.connectedTexturesOF == 0) {
 				return s + I18n.format("options.off");
 			} else if (this.connectedTexturesOF == 1) {
 				return s + I18n.format("options.graphics.fast");

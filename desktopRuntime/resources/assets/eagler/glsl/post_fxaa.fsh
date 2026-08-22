@@ -1,5 +1,3 @@
-#line 2
-
 // Remove this line below if you plan to modify this file
 #ifndef EAGLER_IS_GLES_200
 #define USE_OPTIMIZED
@@ -35,7 +33,7 @@
  * ============================================================================
  * 
  * 
- *                     NVIDIA FXAA 3.11 by TIMOTHY LOTTES
+ *                 NVIDIA FXAA 3.11 by TIMOTHY LOTTES
  * 
  * 
  * ------------------------------------------------------------------------------
@@ -72,14 +70,13 @@ uniform vec2 u_screenSize2f;
     // Pure red and blue or combination of only R and B, will get no AA.
     //
     // Might want to lower the settings for both,
-    //    fxaaConsoleEdgeThresholdMin
+    //    fxnaConsoleEdgeThresholdMin
     //    fxaaQualityEdgeThresholdMin
     // In order to insure AA does not get turned off on colors 
     // which contain a minor amount of green.
     //
     // 1 = On.
     // 0 = Off.
-    //
     #define FXAA_GREEN_AS_LUMA 0
 #endif
 
@@ -90,7 +87,7 @@ uniform vec2 u_screenSize2f;
 #endif
 
 /*============================================================================
-                                API PORTING
+                    API PORTING
 ============================================================================*/
     #define FxaaBool bool
     #define FxaaDiscard discard
@@ -110,7 +107,7 @@ uniform vec2 u_screenSize2f;
     #define FxaaTexTop(t, p) EAGLER_TEXTURE_2D_LOD(t, p, 0.0)
 
 /*============================================================================
-                   GREEN AS LUMA OPTION SUPPORT FUNCTION
+                    GREEN AS LUMA OPTION SUPPORT FUNCTION
 ============================================================================*/
 #if (FXAA_GREEN_AS_LUMA == 0)
     FxaaFloat FxaaLuma(FxaaFloat4 rgba) { return dot(rgba.xyz * rgba.xyz, vec3(0.299, 0.587, 0.114)); }
@@ -119,7 +116,7 @@ uniform vec2 u_screenSize2f;
 #endif    
 
 /*============================================================================
-                         FXAA3 CONSOLE - PC VERSION
+                    FXAA3 CONSOLE - PC VERSION
 ============================================================================*/
 /*--------------------------------------------------------------------------*/
 FxaaFloat4 FxaaPixelShader(
@@ -138,15 +135,15 @@ FxaaFloat4 FxaaPixelShader(
     // Input color texture.
     // {rgb_} = color in linear or perceptual color space
     // if (FXAA_GREEN_AS_LUMA == 0)
-    //     {___a} = luma in perceptual color space (not linear)
+    //      {___a} = luma in perceptual color space (not linear)
     FxaaTex tex,
     //
     // Only used on FXAA Console.
     // This must be from a constant/uniform.
     // This effects sub-pixel AA quality and inversely sharpness.
     //   Where N ranges between,
-    //     N = 0.50 (default)
-    //     N = 0.33 (sharper)
+    //      N = 0.50 (default)
+    //      N = 0.33 (sharper)
     // {x___} = -N/screenWidthInPixels  
     // {_y__} = -N/screenHeightInPixels
     // {__z_} =  N/screenWidthInPixels  
@@ -287,29 +284,89 @@ FxaaFloat4 FxaaPixelShader(
 void main(){
 	vec2 screenSize05 = 0.5 * u_screenSize2f;
 
+    // 1. CRT Screen Warping (Stronger)
+    vec2 centeredCoord = v_position2f * 2.0 - 1.0;
+    float warp_str = 0.3; // Increased warp strength
+    
+    float offset = dot(centeredCoord, centeredCoord) * warp_str;
+    vec2 warpedUV = centeredCoord * (1.0 + offset);
+    
+    // 2. Overscan to completely remove top/bottom black bars
+    float max_warp = 1.0 + 2.0 * warp_str;
+    warpedUV /= max_warp;
+    
+    // 3. Squeeze horizontally for 4:3 aspect ratio (creates left/right bars)
+    warpedUV.x *= 1.333;
+    
+    warpedUV = warpedUV * 0.5 + 0.5;
+
+    // 4. Clip ONLY on the left and right edges (No top/bottom bezel cut)
+    if (warpedUV.x < 0.0 || warpedUV.x > 1.0) {
+        EAGLER_FRAG_COLOR = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+
 	vec4 posPos;
-	posPos.xy = v_position2f;
-	posPos.zw = v_position2f + u_screenSize2f;
+	posPos.xy = warpedUV;
+	posPos.zw = warpedUV + u_screenSize2f;
 
 	vec4 rcpFrameOpt;
 	rcpFrameOpt.xy = -screenSize05;
 	rcpFrameOpt.zw = screenSize05;
 
-	EAGLER_FRAG_COLOR = vec4(FxaaPixelShader(v_position2f + screenSize05, posPos, u_screenTexture, rcpFrameOpt, rcpFrameOpt * 4.0, edgeSharpness, edgeThreshold, edgeThresholdMin).rgb, 1.0);
+    // 5. Chromatic Aberration with FXAA applied to the Green channel for performance
+    float shift = 0.00175; // Halved strength (was 0.0035)
+    float r = EAGLER_TEXTURE_2D(u_screenTexture, warpedUV + vec2(shift, 0.0)).r;
+    float g = FxaaPixelShader(warpedUV + screenSize05, posPos, u_screenTexture, rcpFrameOpt, rcpFrameOpt * 4.0, edgeSharpness, edgeThreshold, edgeThresholdMin).g;
+    float b = EAGLER_TEXTURE_2D(u_screenTexture, warpedUV - vec2(shift, 0.0)).b;
+    vec3 finalColor = vec3(r, g, b);
+
+    // 6. Scanlines and Very Tiny Grain
+    float scanline = sin(warpedUV.y * u_screenSize2f.y * 1.5) * 0.12;
+    finalColor -= scanline;
+    
+    float noise = (fract(sin(dot(warpedUV, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.03; // Tiny amount of grain
+    finalColor += vec3(noise);
+
+    // 7. Vignette
+    float vig = smoothstep(0.0, 0.25, warpedUV.x) * smoothstep(1.0, 0.75, warpedUV.x) *
+                smoothstep(0.0, 0.25, warpedUV.y) * smoothstep(1.0, 0.75, warpedUV.y);
+    finalColor *= pow(vig, 0.3);
+
+	EAGLER_FRAG_COLOR = vec4(finalColor, 1.0);
 }
 #else
-
-// This 'optimized' code was generated using glslangValidator + spirv-cross + spirv-opt on the source code above
-// Is it faster? Idfk, probably compiles faster at least, what matters it I tried
 
 float _616;
 
 void main()
 {
+    // 1. CRT Screen Warping (Stronger)
+    vec2 centeredOpt = v_position2f * 2.0 - 1.0;
+    float warp_strOpt = 0.3; // Increased warp strength
+    
+    float offsetOpt = dot(centeredOpt, centeredOpt) * warp_strOpt;
+    vec2 warpedOpt = centeredOpt * (1.0 + offsetOpt);
+    
+    // 2. Overscan to completely remove top/bottom black bars
+    float max_warpOpt = 1.0 + 2.0 * warp_strOpt;
+    warpedOpt /= max_warpOpt;
+    
+    // 3. Squeeze horizontally for 4:3 aspect ratio (creates left/right bars)
+    warpedOpt.x *= 1.333;
+    
+    warpedOpt = warpedOpt * 0.5 + 0.5;
+
+    // 4. Clip ONLY on the left and right edges (No top/bottom bezel cut)
+    if (warpedOpt.x < 0.0 || warpedOpt.x > 1.0) {
+        EAGLER_FRAG_COLOR = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+
     mediump vec2 _257 = u_screenSize2f * 0.5;
-    mediump vec4 _611 = vec4(v_position2f, v_position2f + u_screenSize2f);
+    mediump vec4 _611 = vec4(warpedOpt, warpedOpt + u_screenSize2f);
     mediump vec4 _612 = vec4(_616, _616, _257);
-    mediump vec2 _290 = v_position2f + _257;
+    mediump vec2 _290 = warpedOpt + _257;
     mediump vec4 _608;
     for(;;)
     {
@@ -363,7 +420,26 @@ void main()
         _608 = _607;
         break;
     }
-    EAGLER_FRAG_COLOR = vec4(_608.xyz, 1.0);
+
+    // 5. Chromatic Aberration using raw texture samples for Red and Blue, FXAA block output for Green
+    float shiftOpt = 0.00175; // Halved strength (was 0.0035)
+    float rOpt = EAGLER_TEXTURE_2D(u_screenTexture, warpedOpt + vec2(shiftOpt, 0.0)).r;
+    float bOpt = EAGLER_TEXTURE_2D(u_screenTexture, warpedOpt - vec2(shiftOpt, 0.0)).b;
+    vec3 finalOpt = vec3(rOpt, _608.y, bOpt);
+
+    // 6. Scanlines and Very Tiny Grain
+    float scanlineOpt = sin(warpedOpt.y * u_screenSize2f.y * 1.5) * 0.12;
+    finalOpt -= scanlineOpt;
+
+    float noiseOpt = (fract(sin(dot(warpedOpt, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.03; // Tiny amount of grain
+    finalOpt += vec3(noiseOpt);
+
+    // 7. Vignette
+    float vigOpt = smoothstep(0.0, 0.25, warpedOpt.x) * smoothstep(1.0, 0.75, warpedOpt.x) *
+                   smoothstep(0.0, 0.25, warpedOpt.y) * smoothstep(1.0, 0.75, warpedOpt.y);
+    finalOpt *= pow(vigOpt, 0.3);
+
+    EAGLER_FRAG_COLOR = vec4(finalOpt, 1.0);
 }
 
 #endif

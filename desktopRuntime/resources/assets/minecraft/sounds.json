@@ -1992,11 +1992,138 @@
       }
     ]
   },
+
   "music.game.end.credits": {
     "category": "music",
     "sounds": [
       {
         "name": "music/game/end/credits",
+        "stream": true
+      }
+    ]
+  },
+"custom.scary1": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary1",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary2": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary2",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary3": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary3",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary4": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary4",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary5": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary5",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary6": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary6",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary7": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary7",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary8": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary8",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary9": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary9",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary10": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary10",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary11": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary11",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary12": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary12",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary13": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary13",
+        "stream": true
+      }
+    ]
+  },
+  "custom.scary14": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/scary14",
         "stream": true
       }
     ]

@@ -10,27 +10,27 @@ public class EaglercraftVersion {
 	/// Customize these to fit your fork:
 	
 	public static final String projectForkName = "EaglercraftX";
-	public static final String projectForkVersion = "u49";
-	public static final String projectForkVendor = "lax1dude";
+	public static final String projectForkVersion = "u53";
+	public static final String projectForkVendor = "Itzsplicez";
 	
-	public static final String projectForkURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8";
+	public static final String projectForkURL = "https://gitlab.com/lax1dude/";
 	
 	//////////////////////////////////////////////////////////////////////
 	
 	public static final String projectOriginName = "EaglercraftX";
-	public static final String projectOriginAuthor = "lax1dude";
+	public static final String projectOriginAuthor = "Itzsplicez";
 	public static final String projectOriginRevision = "1.8";
-	public static final String projectOriginVersion = "u49";
+	public static final String projectOriginVersion = "u53";
 	
-	public static final String projectOriginURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8"; // rest in peace
+	public static final String projectOriginURL = "https://gitlab.com/lax1dude/"; // rest in peace
 	
 	// EPK Version Identifier
 	
-	public static final String EPKVersionIdentifier = "u49"; // Set to null to disable EPK version check
+	public static final String EPKVersionIdentifier = "null"; // Set to null to disable EPK version check
 	
 	// Updating configuration
 	
-	public static final boolean enableUpdateService = true;
+	public static final boolean enableUpdateService = false;
 
 	public static final String updateBundlePackageName = "net.lax1dude.eaglercraft.v1_8.client";
 	public static final int updateBundlePackageVersionInt = 49;

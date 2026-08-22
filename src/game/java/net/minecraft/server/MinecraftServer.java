@@ -125,6 +125,9 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private boolean paused = false;
 	private boolean isSpawnChunksLoaded = false;
 
+    private final ScaryText scaryText = new ScaryText();
+	private final ScarySounds scarySounds = new ScarySounds();
+
 	public MinecraftServer(String worldName) {
 		mcServer = this;
 		this.worldName = worldName;
@@ -458,6 +461,9 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		}
 
 		this.updateTimeLightAndEntities();
+
+		this.scaryText.update(this);
+		this.scarySounds.update(this);
 
 		boolean loadSpawnChunks = this.worldServers[0].getWorldInfo().getGameRulesInstance()
 				.getBoolean("loadSpawnChunks");
