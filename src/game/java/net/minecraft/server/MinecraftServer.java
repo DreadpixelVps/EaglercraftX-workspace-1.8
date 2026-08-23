@@ -6,7 +6,9 @@ import net.lax1dude.eaglercraft.v1_8.mojang.authlib.GameProfile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 
@@ -71,7 +73,7 @@ import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
  */
 public abstract class MinecraftServer implements Runnable, ICommandSender, IThreadListener {
 	private static final Logger logger = LogManager.getLogger();
-	private static MinecraftServer mcServer;
+	public static MinecraftServer mcServer;
 	/**+
 	 * List of names of players who are online.
 	 */
@@ -127,22 +129,43 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
     private final ScaryText scaryText = new ScaryText();
 	private final ScarySounds scarySounds = new ScarySounds();
-
+    private final List<Structure> availableStructures = Arrays.asList(
+        new House()
+    );
+    private final Random structureRandom = new Random();
 	public MinecraftServer(String worldName) {
 		mcServer = this;
 		this.worldName = worldName;
 		this.commandManager = new ServerCommandManager();
 	}
 
+
+/**
+     * Called whenever a chunk coordinates are generated or loaded.
+     */
+public void handleNewChunkStructureSpawn(World world, int chunkX, int chunkZ) {
+        int startX = chunkX * 16;
+        int startZ = chunkZ * 16;
+        
+        int surfaceY = world.getTopSolidOrLiquidBlock(new net.minecraft.util.BlockPos(startX, 0, startZ)).getY();
+        net.minecraft.util.BlockPos spawnLocation = new net.minecraft.util.BlockPos(startX, surfaceY, startZ);
+
+        for (Structure structure : availableStructures) {
+            if (structureRandom.nextDouble() <= structure.getSpawnChance()) {
+                structure.generate(world, spawnLocation);
+                break;
+            }
+        }
+    }
 	protected ServerCommandManager createNewCommandManager() {
-		return new ServerCommandManager();
-	}
+        return new ServerCommandManager();
+    }
 
-	protected abstract boolean startServer() throws IOException;
+    protected abstract boolean startServer() throws IOException;
 
-	protected void convertMapIfNeeded(String worldNameIn) {
+    protected void convertMapIfNeeded(String worldNameIn) {
 
-	}
+    }
 
 	/**+
 	 * Typically "menu.convertingLevel", "menu.loadingLevel" or

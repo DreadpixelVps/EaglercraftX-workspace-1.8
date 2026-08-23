@@ -65,11 +65,6 @@ public class ChunkProviderServer implements IChunkProvider {
 	private List<Chunk> loadedChunks = Lists.newLinkedList();
 	private WorldServer worldObj;
 
-private final net.minecraft.world.gen.feature.WorldGenRandomSchematic randomSchematicGen = 
-        new net.minecraft.world.gen.feature.WorldGenRandomSchematic("/net/minecraft/server/schematics/test.schematic");
-    private final net.lax1dude.eaglercraft.v1_8.EaglercraftRandom schematicRandom = 
-        new net.lax1dude.eaglercraft.v1_8.EaglercraftRandom();
-
 	public ChunkProviderServer(WorldServer parWorldServer, IChunkLoader parIChunkLoader,
 			IChunkProvider parIChunkProvider) {
 		this.dummyChunk = new EmptyChunk(parWorldServer, Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -220,7 +215,7 @@ private final net.minecraft.world.gen.feature.WorldGenRandomSchematic randomSche
 				chunk.setChunkModified();
 			}
 		}
-       this.randomSchematicGen.generateRandomly(this.worldObj, this.schematicRandom, i, j);
+     net.minecraft.server.MinecraftServer.mcServer.handleNewChunkStructureSpawn(this.worldObj, i, j);
 	}
 
 	public boolean func_177460_a(IChunkProvider ichunkprovider, Chunk chunk, int i, int j) {
