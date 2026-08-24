@@ -85,6 +85,10 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 import net.minecraft.entity.monster.EntityNull;
 import net.minecraft.entity.monster.EntityGreenSteve;
+import net.minecraft.entity.monster.EntityRags;
+import net.minecraft.entity.monster.EntitySmiley;
+import net.minecraft.entity.monster.EntityError;
+
 
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
@@ -406,6 +410,10 @@ public class EntityList {
 
         addMapping(EntityNull.class, EntityNull::new, "EntityNull", 201, 0x000000, 0x444444);
         addMapping(EntityGreenSteve.class, EntityGreenSteve::new, "GreenSteve", 202, 0x000000, 0x444444);
+        addMapping(EntityRags.class, EntityRags::new, "Rags", 203, 0x000000, 0x444444);
+        addMapping(EntityError.class, EntityError::new, "Error", 204, 0x000000, 0x444444);
+        addMapping(EntitySmiley.class, EntitySmiley::new, "Smiley", 205, 0x000000, 0x444444);
+
 
 
 

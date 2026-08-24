@@ -111,6 +111,12 @@ import net.minecraft.client.model.ModelNull;
 import net.minecraft.entity.monster.EntityNull;
 import net.minecraft.client.model.ModelGreenSteve;
 import net.minecraft.entity.monster.EntityGreenSteve;
+import net.minecraft.client.model.ModelRags;
+import net.minecraft.entity.monster.EntityRags;
+import net.minecraft.client.model.ModelError;
+import net.minecraft.entity.monster.EntityError;
+import net.minecraft.client.model.ModelSmiley;
+import net.minecraft.entity.monster.EntitySmiley;
 
 
 
@@ -227,6 +233,9 @@ public class RenderManager {
 
         this.entityRenderMap.put(EntityNull.class, new RenderNull(this));
         this.entityRenderMap.put(EntityGreenSteve.class, new RenderGreenSteve(this));
+        this.entityRenderMap.put(EntityRags.class, new RenderRags(this));
+        this.entityRenderMap.put(EntityError.class, new RenderError(this));
+        this.entityRenderMap.put(EntitySmiley.class, new RenderSmiley(this));
 
 
 
