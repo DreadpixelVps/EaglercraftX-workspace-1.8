@@ -83,6 +83,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
+import net.minecraft.entity.monster.EntityNull;
+import net.minecraft.entity.monster.EntityGreenSteve;
 
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
@@ -400,6 +402,15 @@ public class EntityList {
 		addMapping(EntityRabbit.class, EntityRabbit::new, "Rabbit", 101, 10051392, 7555121);
 		addMapping(EntityVillager.class, EntityVillager::new, "Villager", 120, 5651507, 12422002);
 		addMapping(EntityEnderCrystal.class, EntityEnderCrystal::new, "EnderCrystal", 200);
+
+
+        addMapping(EntityNull.class, EntityNull::new, "EntityNull", 201, 0x000000, 0x444444);
+        addMapping(EntityGreenSteve.class, EntityGreenSteve::new, "GreenSteve", 202, 0x000000, 0x444444);
+
+
+
+
+
 	}
 
 	public static class EntityEggInfo {

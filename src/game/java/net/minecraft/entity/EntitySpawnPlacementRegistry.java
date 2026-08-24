@@ -36,6 +36,8 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.monster.EntityNull;
+import net.minecraft.entity.monster.EntityGreenSteve;
 
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
@@ -97,5 +99,8 @@ public class EntitySpawnPlacementRegistry {
 		ENTITY_PLACEMENTS.put(EntitySpider.class, EntityLiving.SpawnPlacementType.ON_GROUND);
 		ENTITY_PLACEMENTS.put(EntityWitch.class, EntityLiving.SpawnPlacementType.ON_GROUND);
 		ENTITY_PLACEMENTS.put(EntityZombie.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityNull.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityGreenSteve.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+
 	}
 }

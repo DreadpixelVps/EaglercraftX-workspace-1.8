@@ -1804,6 +1804,8 @@ entity.Mob.name=Mob
 entity.Monster.name=Monster
 
 entity.Creeper.name=Creeper
+entity.Null.name=Null
+entity.GreenSteve.name=Green Steve
 entity.Skeleton.name=Skeleton
 entity.Spider.name=Spider
 entity.Giant.name=Giant

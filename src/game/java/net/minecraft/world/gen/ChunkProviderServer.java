@@ -215,7 +215,6 @@ public class ChunkProviderServer implements IChunkProvider {
 				chunk.setChunkModified();
 			}
 		}
-     net.minecraft.server.MinecraftServer.mcServer.handleNewChunkStructureSpawn(this.worldObj, i, j);
 	}
 
 	public boolean func_177460_a(IChunkProvider ichunkprovider, Chunk chunk, int i, int j) {

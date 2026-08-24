@@ -5,6 +5,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.Collections;
+import net.minecraft.entity.monster.EntityNull;
+import net.minecraft.entity.monster.EntityGreenSteve;
 import java.util.List;
 import java.util.Map;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
@@ -186,6 +188,8 @@ public abstract class BiomeGenBase {
 		this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityChicken.class, 10, 4, 4));
 		this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityCow.class, 8, 4, 4));
 		this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityNull.class, 40, 1, 1));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityGreenSteve.class, 40, 1, 1));
 		this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
 		this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
 		this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityCreeper.class, 100, 4, 4));

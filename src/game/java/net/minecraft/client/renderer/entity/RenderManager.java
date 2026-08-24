@@ -107,6 +107,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.client.model.ModelNull;
+import net.minecraft.entity.monster.EntityNull;
+import net.minecraft.client.model.ModelGreenSteve;
+import net.minecraft.entity.monster.EntityGreenSteve;
+
+
 
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
@@ -216,6 +222,14 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityFishHook.class, new RenderFish(this));
 		this.entityRenderMap.put(EntityHorse.class, new RenderHorse(this, new ModelHorse(), 0.75F));
 		this.entityRenderMap.put(EntityLightningBolt.class, new RenderLightningBolt(this));
+
+
+
+        this.entityRenderMap.put(EntityNull.class, new RenderNull(this));
+        this.entityRenderMap.put(EntityGreenSteve.class, new RenderGreenSteve(this));
+
+
+
 		this.playerRenderer = new RenderPlayer(this);
 		this.skinMap.put("default", this.playerRenderer);
 		this.skinMap.put("slim", new RenderPlayer(this, true, false));

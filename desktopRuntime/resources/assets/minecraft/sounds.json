@@ -2128,6 +2128,15 @@
       }
     ]
   },
+  "custom.running": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "custom/running",
+        "stream": true
+      }
+    ]
+  },
   "music.game.nether": {
     "category": "music",
     "sounds": [
