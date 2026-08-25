@@ -83,12 +83,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
+
 import net.minecraft.entity.monster.EntityNull;
 import net.minecraft.entity.monster.EntityGreenSteve;
 import net.minecraft.entity.monster.EntityRags;
 import net.minecraft.entity.monster.EntitySmiley;
 import net.minecraft.entity.monster.EntityError;
-
+import net.minecraft.entity.monster.EntityAlex;
+import net.minecraft.entity.monster.EntityAlexbrine;
+import net.minecraft.entity.monster.EntityEntity303;
+import net.minecraft.entity.monster.EntityGiantAlex;
+import net.minecraft.entity.monster.EntityHerobrine;
+import net.minecraft.entity.monster.EntityInvert;
+import net.minecraft.entity.monster.EntitySteve;
+import net.minecraft.entity.monster.EntityRedSteve;
+import net.minecraft.entity.monster.EntityWhiteEnderman;
 
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
@@ -407,18 +416,20 @@ public class EntityList {
 		addMapping(EntityVillager.class, EntityVillager::new, "Villager", 120, 5651507, 12422002);
 		addMapping(EntityEnderCrystal.class, EntityEnderCrystal::new, "EnderCrystal", 200);
 
-
-        addMapping(EntityNull.class, EntityNull::new, "EntityNull", 201, 0x000000, 0x444444);
-        addMapping(EntityGreenSteve.class, EntityGreenSteve::new, "GreenSteve", 202, 0x000000, 0x444444);
-        addMapping(EntityRags.class, EntityRags::new, "Rags", 203, 0x000000, 0x444444);
-        addMapping(EntityError.class, EntityError::new, "Error", 204, 0x000000, 0x444444);
-        addMapping(EntitySmiley.class, EntitySmiley::new, "Smiley", 205, 0x000000, 0x444444);
-
-
-
-
-
-
+		addMapping(EntityNull.class, EntityNull::new, "EntityNull", 201, 0x000000, 0x444444);
+		addMapping(EntityGreenSteve.class, EntityGreenSteve::new, "GreenSteve", 202, 0x000000, 0x444444);
+		addMapping(EntityRags.class, EntityRags::new, "Rags", 203, 0x000000, 0x444444);
+		addMapping(EntityError.class, EntityError::new, "Error", 204, 0x000000, 0x444444);
+		addMapping(EntitySmiley.class, EntitySmiley::new, "Smiley", 205, 0x000000, 0x444444);
+		addMapping(EntityAlex.class, EntityAlex::new, "Alex", 206, 0x000000, 0x444444);
+		addMapping(EntityAlexbrine.class, EntityAlexbrine::new, "Alexbrine", 207, 0x000000, 0x444444);
+		addMapping(EntityEntity303.class, EntityEntity303::new, "Entity303", 208, 0x000000, 0x444444);
+		addMapping(EntityGiantAlex.class, EntityGiantAlex::new, "GiantAlex", 209, 0x000000, 0x444444);
+		addMapping(EntityHerobrine.class, EntityHerobrine::new, "Herobrine", 210, 0x000000, 0x444444);
+		addMapping(EntityInvert.class, EntityInvert::new, "Invert", 211, 0x000000, 0x444444);
+		addMapping(EntitySteve.class, EntitySteve::new, "Steve", 212, 0x000000, 0x444444);
+		addMapping(EntityRedSteve.class, EntityRedSteve::new, "RedSteve", 213, 0x000000, 0x444444);
+		addMapping(EntityWhiteEnderman.class, EntityWhiteEnderman::new, "WhiteEnderman", 214, 0x000000, 0x444444);
 	}
 
 	public static class EntityEggInfo {

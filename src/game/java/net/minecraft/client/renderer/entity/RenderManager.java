@@ -107,18 +107,35 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.client.model.ModelNull;
+
 import net.minecraft.entity.monster.EntityNull;
-import net.minecraft.client.model.ModelGreenSteve;
+import net.minecraft.client.renderer.entity.RenderNull;
 import net.minecraft.entity.monster.EntityGreenSteve;
-import net.minecraft.client.model.ModelRags;
+import net.minecraft.client.renderer.entity.RenderGreenSteve;
 import net.minecraft.entity.monster.EntityRags;
-import net.minecraft.client.model.ModelError;
+import net.minecraft.client.renderer.entity.RenderRags;
 import net.minecraft.entity.monster.EntityError;
-import net.minecraft.client.model.ModelSmiley;
+import net.minecraft.client.renderer.entity.RenderError;
 import net.minecraft.entity.monster.EntitySmiley;
-
-
+import net.minecraft.client.renderer.entity.RenderSmiley;
+import net.minecraft.entity.monster.EntityAlex;
+import net.minecraft.client.renderer.entity.RenderAlex;
+import net.minecraft.entity.monster.EntityAlexbrine;
+import net.minecraft.client.renderer.entity.RenderAlexbrine;
+import net.minecraft.entity.monster.EntityEntity303;
+import net.minecraft.client.renderer.entity.RenderEntity303;
+import net.minecraft.entity.monster.EntityGiantAlex;
+import net.minecraft.client.renderer.entity.RenderGiantAlex;
+import net.minecraft.entity.monster.EntityHerobrine;
+import net.minecraft.client.renderer.entity.RenderHerobrine;
+import net.minecraft.entity.monster.EntityInvert;
+import net.minecraft.client.renderer.entity.RenderInvert;
+import net.minecraft.entity.monster.EntitySteve;
+import net.minecraft.client.renderer.entity.RenderSteve;
+import net.minecraft.entity.monster.EntityRedSteve;
+import net.minecraft.client.renderer.entity.RenderRedSteve;
+import net.minecraft.entity.monster.EntityWhiteEnderman;
+import net.minecraft.client.renderer.entity.RenderWhiteEnderman;
 
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
@@ -229,15 +246,20 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityHorse.class, new RenderHorse(this, new ModelHorse(), 0.75F));
 		this.entityRenderMap.put(EntityLightningBolt.class, new RenderLightningBolt(this));
 
-
-
-        this.entityRenderMap.put(EntityNull.class, new RenderNull(this));
-        this.entityRenderMap.put(EntityGreenSteve.class, new RenderGreenSteve(this));
-        this.entityRenderMap.put(EntityRags.class, new RenderRags(this));
-        this.entityRenderMap.put(EntityError.class, new RenderError(this));
-        this.entityRenderMap.put(EntitySmiley.class, new RenderSmiley(this));
-
-
+		this.entityRenderMap.put(EntityNull.class, new RenderNull(this));
+		this.entityRenderMap.put(EntityGreenSteve.class, new RenderGreenSteve(this));
+		this.entityRenderMap.put(EntityRags.class, new RenderRags(this));
+		this.entityRenderMap.put(EntityError.class, new RenderError(this));
+		this.entityRenderMap.put(EntitySmiley.class, new RenderSmiley(this));
+		this.entityRenderMap.put(EntityAlex.class, new RenderAlex(this));
+		this.entityRenderMap.put(EntityAlexbrine.class, new RenderAlexbrine(this));
+		this.entityRenderMap.put(EntityEntity303.class, new RenderEntity303(this));
+		this.entityRenderMap.put(EntityGiantAlex.class, new RenderGiantAlex(this));
+		this.entityRenderMap.put(EntityHerobrine.class, new RenderHerobrine(this));
+		this.entityRenderMap.put(EntityInvert.class, new RenderInvert(this));
+		this.entityRenderMap.put(EntitySteve.class, new RenderSteve(this));
+		this.entityRenderMap.put(EntityRedSteve.class, new RenderRedSteve(this));
+		this.entityRenderMap.put(EntityWhiteEnderman.class, new RenderWhiteEnderman(this));
 
 		this.playerRenderer = new RenderPlayer(this);
 		this.skinMap.put("default", this.playerRenderer);

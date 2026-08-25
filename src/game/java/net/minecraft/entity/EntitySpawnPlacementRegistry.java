@@ -41,6 +41,15 @@ import net.minecraft.entity.monster.EntityGreenSteve;
 import net.minecraft.entity.monster.EntityRags;
 import net.minecraft.entity.monster.EntitySmiley;
 import net.minecraft.entity.monster.EntityError;
+import net.minecraft.entity.monster.EntityAlex;
+import net.minecraft.entity.monster.EntityAlexbrine;
+import net.minecraft.entity.monster.EntityEntity303;
+import net.minecraft.entity.monster.EntityGiantAlex;
+import net.minecraft.entity.monster.EntityHerobrine;
+import net.minecraft.entity.monster.EntityInvert;
+import net.minecraft.entity.monster.EntitySteve;
+import net.minecraft.entity.monster.EntityRedSteve;
+import net.minecraft.entity.monster.EntityWhiteEnderman;
 
 
 
@@ -109,6 +118,16 @@ public class EntitySpawnPlacementRegistry {
 		ENTITY_PLACEMENTS.put(EntityRags.class, EntityLiving.SpawnPlacementType.ON_GROUND);
 		ENTITY_PLACEMENTS.put(EntityError.class, EntityLiving.SpawnPlacementType.ON_GROUND);
 		ENTITY_PLACEMENTS.put(EntitySmiley.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityAlex.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityAlexbrine.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityEntity303.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityGiantAlex.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityHerobrine.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityInvert.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntitySteve.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityRedSteve.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+		ENTITY_PLACEMENTS.put(EntityWhiteEnderman.class, EntityLiving.SpawnPlacementType.ON_GROUND);
+
 
 
 	}

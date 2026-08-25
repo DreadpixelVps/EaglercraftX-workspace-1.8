@@ -2,6 +2,7 @@ package net.minecraft.entity.ai;
 
 import net.minecraft.entity.monster.EntitySmiley;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -135,7 +136,7 @@ public class EntityAISmileyBehavior extends EntityAIBase {
         this.theEntity.getLookHelper().setLookPositionWithEntity(this.targetPlayer, 30.0F, 30.0F);
 
         if (this.state == 0) {
-            double distance = 20.0D;
+            double distance = 10.0D;
             double angle = this.theEntity.getRNG().nextDouble() * Math.PI * 2.0D;
             double targetX = this.targetPlayer.posX + Math.cos(angle) * distance;
             double targetZ = this.targetPlayer.posZ + Math.sin(angle) * distance;
@@ -156,25 +157,39 @@ public class EntityAISmileyBehavior extends EntityAIBase {
             this.theEntity.setPositionAndUpdate(targetX, targetY, targetZ);
 
             double actualDist = this.theEntity.getDistanceSqToEntity(this.targetPlayer);
+            
+            // If too far away, switch to chasing state (state = 1)
             if (actualDist > 250.0D) {
                 this.state = 1; 
-            } else {
+            } 
+            // If close enough (within ~6 blocks squared), trigger the speech/trap state (state = 2)
+            else if (actualDist <= 64.0D) {
                 this.state = 2; 
                 if (!this.theEntity.worldObj.isRemote) {
                     this.targetPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 300, 255, true, false));
                     
-                    // Calculate exact coordinates 2.5 blocks in front of player based on their yaw rotation
+                    // Calculate exact coordinates 4.5 blocks directly in front of player based on their yaw rotation
                     float playerYaw = this.targetPlayer.rotationYaw;
                     double rad = Math.toRadians(playerYaw);
                     
-                    // In Minecraft, sin/cos offsets for looking direction
-                    double spawnX = this.targetPlayer.posX - (Math.sin(rad) * 2.5D);
-                    double spawnZ = this.targetPlayer.posZ + (Math.cos(rad) * 2.5D);
+                    double spawnX = this.targetPlayer.posX - (Math.sin(rad) * 4.5D);
+                    double spawnZ = this.targetPlayer.posZ + (Math.cos(rad) * 4.5D);
                     double spawnY = this.targetPlayer.posY;
 
                     this.fixedX = spawnX;
                     this.fixedY = spawnY;
                     this.fixedZ = spawnZ;
+
+                    // Clear a 3x3x3 space around the spawn point to prevent suffocation in walls
+                    BlockPos centerPos = new BlockPos(this.fixedX, this.fixedY, this.fixedZ);
+                    for (int dx = -1; dx <= 1; dx++) {
+                        for (int dy = 0; dy <= 2; dy++) {
+                            for (int dz = -1; dz <= 1; dz++) {
+                                BlockPos clearPos = centerPos.add(dx, dy, dz);
+                                this.theEntity.worldObj.setBlockToAir(clearPos);
+                            }
+                        }
+                    }
                     
                     this.theEntity.setPositionAndUpdate(this.fixedX, this.fixedY, this.fixedZ);
                     
@@ -186,7 +201,38 @@ public class EntityAISmileyBehavior extends EntityAIBase {
         } else if (this.state == 1) {
             this.theEntity.getNavigator().tryMoveToEntityLiving(this.targetPlayer, 1.3D);
 
-            if (this.theEntity.getDistanceSqToEntity(this.targetPlayer) <= 4.0D) {
+            // Check if close enough during chase to trigger trap state
+            if (this.theEntity.getDistanceSqToEntity(this.targetPlayer) <= 36.0D) {
+                this.state = 2;
+                if (!this.theEntity.worldObj.isRemote) {
+                    this.targetPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 300, 255, true, false));
+                    
+                    float playerYaw = this.targetPlayer.rotationYaw;
+                    double rad = Math.toRadians(playerYaw);
+                    
+                    double spawnX = this.targetPlayer.posX - (Math.sin(rad) * 4.5D);
+                    double spawnZ = this.targetPlayer.posZ + (Math.cos(rad) * 4.5D);
+                    double spawnY = this.targetPlayer.posY;
+
+                    this.fixedX = spawnX;
+                    this.fixedY = spawnY;
+                    this.fixedZ = spawnZ;
+
+                    BlockPos centerPos = new BlockPos(this.fixedX, this.fixedY, this.fixedZ);
+                    for (int dx = -1; dx <= 1; dx++) {
+                        for (int dy = 0; dy <= 2; dy++) {
+                            for (int dz = -1; dz <= 1; dz++) {
+                                BlockPos clearPos = centerPos.add(dx, dy, dz);
+                                this.theEntity.worldObj.setBlockToAir(clearPos);
+                            }
+                        }
+                    }
+                    
+                    this.theEntity.setPositionAndUpdate(this.fixedX, this.fixedY, this.fixedZ);
+                    this.theEntity.setLocationAndAngles(this.fixedX, this.fixedY, this.fixedZ, playerYaw + 180.0F, 0.0F);
+                }
+                this.stateTimer = 0;
+            } else if (this.theEntity.getDistanceSqToEntity(this.targetPlayer) <= 4.0D) {
                 if (!this.theEntity.worldObj.isRemote) {
                     this.targetPlayer.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 1.0F);
                     int randomLineIndex = this.theEntity.getRNG().nextInt(this.scareLines.length);
